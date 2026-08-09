@@ -2,38 +2,51 @@
 
 LiONsVAULT is a Pythonista-based media indexer for Apple Photos on iPhone/iPad.
 
-## Current status
+## Current development status
 
-The current indexer version is **V1.2**.
+The current development line is **V1.7**.
 
-A verified full V1.1 run produced:
+Verified archive baseline:
 
 - 33,213 total media assets
 - 24,536 photos
 - 8,677 videos
 
-## Main script
+## What V1.7 adds
 
-`LiONsVAULT_Media_Indexer_V1_2.py`
+- incremental JSON updates for newly saved media
+- Apple Photos album memberships as metadata
+- source tagging from app-created albums such as CapCut, TikTok, Instagram, WhatsApp, Filmora and Tempo
+- Live Photo and animated-media tagging
+- local Apple Vision OCR for screenshots, text images and quote candidates
+- topic tagging for success, motivation, discipline, love, heartbreak, business, marketing, AI, music, techno, gaming and related themes
+- visual content tagging for cars, night drives, streets, rain, clubs, stages, travel, hotels, nature, people and other reusable content motifs
+- batch-based content analysis so the archive can be processed progressively
 
-V1.2 reuses an existing `LiONsVAULT_media_index.json`, skips already known Apple Photos asset IDs and adds only newly saved media. The CSV is regenerated from the updated complete index.
+## Data safety
 
-If no JSON index exists, V1.2 automatically performs a complete first index.
+The Apple Photos library remains read-only. LiONsVAULT does not move or delete media.
 
-The script remains read-only with respect to the Apple Photos library: it does not move or delete media.
+Generated files such as `LiONsVAULT_media_index.json` and `LiONsVAULT_media_index.csv` contain private Apple Photos asset IDs, dates, album memberships and recognized text. These files are intentionally excluded from the public repository via `.gitignore`.
 
-## Local data files
+## Tag model
 
-The generated files `LiONsVAULT_media_index.json` and `LiONsVAULT_media_index.csv` contain personal media metadata such as Apple Photos asset IDs, dates, album memberships and tags. They are intentionally **not committed** to this public repository and are protected by `.gitignore`.
+LiONsVAULT separates tags into clear layers:
 
-## Workflow
+- `topic:` meaning/theme, e.g. `topic:success`, `topic:heartbreak`, `topic:ai`
+- `content:` visible motif, e.g. `content:car`, `content:rain`, `content:stage`
+- `source:` origin/format, e.g. `source:capcut`, `source:livephoto`, `source:screenshot`
+- `project:` known project context, e.g. `project:lionscage`
+- `quality:` usability signals such as watermark/UI status
 
-1. Keep `LiONsVAULT_Media_Indexer_V1_2.py` and the existing JSON index in the same Pythonista folder.
-2. Run the script whenever new media should be added to LiONsVAULT.
-3. Known assets are skipped.
-4. New photos/videos are appended to the JSON index.
-5. The CSV is refreshed automatically.
+## Current workflow
 
-## Next step
+1. Keep the current LiONsVAULT script and the existing JSON index in the same Pythonista folder.
+2. Run the indexer to add newly saved media.
+3. Run content analysis in batches.
+4. The JSON remains the persistent archive index.
+5. CSV is regenerated as a convenient review/export format.
 
-Add content-based tagging and search without changing the existing media library.
+## Next development step
+
+Validate V1.7 content tagging on real archive batches, then add search/output workflows for practical content production.
